@@ -17,9 +17,9 @@
 
 Welcome, mortal :yum: After spending over 1k hours with this fantastic game (and currently setting out to make it 2k), I've accompanied a few people on their journey. Most of them struggled to get a solid grasp of the Factorio circuit network, let alone its intricacies.
 
-Looking at the existing material ([Circuit Network Cookbook](https://wiki.factorio.com/Tutorial:Circuit_network_cookbook) & [Combinator Tutorial](https://wiki.factorio.com/Tutorial:Combinator_tutorial)) it's not hard to figure out why, I'm sorry to say. Although those sources are not wrong about the topic and provide recipes, I always found them lacking in a proper approach to teach people how to do stuff on their own.
+There are already a few tutorials around (like [Circuit Network Cookbook](https://wiki.factorio.com/Tutorial:Circuit_network_cookbook) & [Combinator Tutorial](https://wiki.factorio.com/Tutorial:Combinator_tutorial)) but I never thought they were good at teaching this stuff to beginners, I'm sorry to say. Although those sources are not wrong about the topic and provide recipes, I always found them lacking in a proper approach to teach people how to do stuff on their own and get creative.
 
-So, I'm setting out to give it another try and go step-by-step in basically writing a "Factorio Circuit Network for Dummies" tutorial. I'll also strive to include as many pictures and explanation as possible.
+So, I'm setting out to give it another try and go step-by-step in basically writing a "Factorio Circuit Network for Dummies" tutorial. I'll also strive to include as many pictures and explanation as possible as well as continuously improving it. You can also help by [raising issues](https://github.com/Some-Yes-Man/FactorioNetwork/issues) over on GitHub.
 
 ## 2. The Basics
 
@@ -39,11 +39,19 @@ Adding 100 iron plates to the right-hand chest, brings both signals up to the sa
 ![A chest and a constant combinator sending the same kind of signal.](images/Basics_Signals3.png)
 Exchanging one of the chests with a [constant combinator](https://wiki.factorio.com/Constant_combinator) and configuring it to send a signal of -200 (yes, negative 200 iron plates), the new sum of all signals is a single -100 iron signal. Again, **the network** (ie the wire) just **adds up every signal type**.
 
+*Important!* The network always contains *ALL* possible signals, it's just that they are initially all zero. Looking back at our copper-iron example the actual state of the network looks more like this:
+
+![Iron Plate](https://wiki.factorio.com/images/Iron_plate.png) | ![Copper Plate](https://wiki.factorio.com/images/Copper_plate.png) | ![Steel Plate](https://wiki.factorio.com/images/Steel_plate.png) | ![Plastic Bar](https://wiki.factorio.com/images/Plastic_bar.png) | . . . | . . . | ![Electronic Circuit](https://wiki.factorio.com/images/Electronic_circuit.png) | ![Advanced Circuit](https://wiki.factorio.com/images/Advanced_circuit.png) | . . . | . . . | `A` | `B` | `C` | . . .
+:---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---:
+200 | 200 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0
+
+If you look at a connected power pole, the values that are zero are just not shown, that's all. Sending 200 steel into the system while also sending -200 to the same system, will render the value to be zero and make it disappear from the displayed signals.
+
 ### 2.2 So many Signal Types
 
 So, anything that can be put into a chest, can be broadcast as a signal (panel #1 to #4). Just wire up all your chests and you'll have an overview what items (and which amount) exists in your factory. The same goes for all kinds of fluids (see panel #5), as you can also wire up your [storage tanks](https://wiki.factorio.com/Storage_tank) (each holds up to 25k of fluid).
 
-![Logistic & Production Signals](images/Basics_LogisticAndProductionSignals.png) ![Intermediate & Combat Signals](images/Basics_IntermediateAndCombatSignals.png) ![Fluid & Virtual Signals](images/Basics_FluidAndVirtualSignals.png)
+![Panel 1 & 2](images/Basics_LogisticAndProductionSignals.png) ![Panel 3 & 4](images/Basics_IntermediateAndCombatSignals.png) ![Panel 5 & 6](images/Basics_FluidAndVirtualSignals.png)
 
 And then there are the [virtual signals](https://wiki.factorio.com/Circuit_network#Virtual_signals).
 
@@ -51,7 +59,7 @@ Assume someone actually connects all his or her chests, there would be no kind o
 
 ![Locomotive at a train stop which reads train ID and content.](images/Basics_VirtualSignals.png)
 
-Luckily there is a number (I'm told it's 48) of non-item-related signals to pick from (see panel #6 above). So the train ID could be send as signal "A" for example, while it's content still refers to the items of course. There are also color signals in there (<span style="color:red">red</span>, <span style="color:green">green</span>, <span style="color:blue">blue</span> and so on). Those can even be used by lamps for automatic coloring.
+Luckily there is a number (I'm told it's 48) of non-item-related signals to pick from (see panel #6 above). So the train ID could be send as signal "A" for example, while it's content still refers to the item signals of course. There are also color signals in there (<span style="color:red">red</span>, <span style="color:green">green</span>, <span style="color:blue">blue</span> and so on). Those can even be used by lamps for automatic coloring.
 
 Maybe you already know or have heard that there are also three very special *virtual signals* that are also called *logic signals*. Those would be `Everything`, `Anything` and `Each` (the red, green and yellow star symbol on panel #6). They are extremely helpful and I'll cover them later, due to their complexity.
 
@@ -65,7 +73,7 @@ Okay, apparently there are a bunch of [buildings producing signals](SignalSource
 
 ![Probably the smallest network possible :D](images/Basics_Control2.png)
 
-A fairly easy and common one is the controlled power switch to attach/detach your backup steam engines after switching to solar power. You only want the steam to kick in if the accumulator charge drops below a certain level. So output the charge and feed it into the power switch. In this case, attach the engines as soon as the charge is below 10%.
+A fairly easy and common one is the controlled power switch to attach/detach your backup steam engines after switching to solar power. You only want the steam to kick in if the accumulator charge drops below a certain level. So output the charge and feed it into the power switch. In this case, attach the engines as soon as the charge is below 10%. This way the solar panels and accumulators are always connected to the factory while steam power is only ever used when it's actually needed.
 
 Easy! But that can't be it, right?!
 
