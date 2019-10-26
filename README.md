@@ -1,17 +1,21 @@
+# Mortal's Guide to the Factorio Circuit Network
+
 ## Table of Contents
 
-- [Table of Contents](#table-of-contents)
-- [1. Introduction](#1-introduction)
-- [2. The Basics](#2-the-basics)
-  - [2.1 Time for an example!](#21-time-for-an-example)
-  - [2.2 So many Signal Types](#22-so-many-signal-types)
-  - [2.3 Controlling something](#23-controlling-something)
-  - [2.4 First logic](#24-first-logic)
-  - [2.5 Everything, Anything & Each](#25-everything-anything--each)
-- [3 Ticks, Delay & Propagation](#3-ticks-delay--propagation)
-  - [3.1 Feedback > Clocks](#31-feedback--clocks)
-  - [3.2 Latches](#32-latches)
-  - [3.3 Even more creepy stuff](#33-even-more-creepy-stuff)
+- [Mortal's Guide to the Factorio Circuit Network](#mortals-guide-to-the-factorio-circuit-network)
+  - [Table of Contents](#table-of-contents)
+  - [1. Introduction](#1-introduction)
+  - [2. The Basics](#2-the-basics)
+    - [2.1 Time for an example!](#21-time-for-an-example)
+    - [2.2 So many Signal Types](#22-so-many-signal-types)
+    - [2.3 Controlling something](#23-controlling-something)
+    - [2.4 Manipulating signals](#24-manipulating-signals)
+    - [2.5 First logic](#25-first-logic)
+    - [2.6 Everything, Anything & Each](#26-everything-anything--each)
+  - [3 Ticks, Delay & Propagation](#3-ticks-delay--propagation)
+    - [3.1 Feedback > Clocks](#31-feedback--clocks)
+    - [3.2 Latches](#32-latches)
+    - [3.3 Even more creepy stuff](#33-even-more-creepy-stuff)
 
 ## 1. Introduction
 
@@ -37,9 +41,9 @@ As is happens, the "strength/height/amplitude" of the iron signal is 100, the on
 Adding 100 iron plates to the right-hand chest, brings both signals up to the same value. Chests send out all the content and for the network it doesn't matter where the **signals** are coming from, they just **add up**.
 
 ![A chest and a constant combinator sending the same kind of signal.](images/Basics_Signals3.png)
-Exchanging one of the chests with a [constant combinator](https://wiki.factorio.com/Constant_combinator) and configuring it to send a signal of -200 (yes, negative 200 iron plates), the new sum of all signals is a single -100 iron signal. Again, **the network** (ie the wire) just **adds up every signal type**.
+Exchanging one of the chests with a [constant combinator](https://wiki.factorio.com/Constant_combinator) (can send any signal you choose) and configuring it to send a signal of -200 (yes, negative 200 iron plates), the new sum of all signals is a single -100 iron signal. Again, **the network** (ie the wire) just **adds up every signal type**.
 
-*Important!* The network always contains *ALL* possible signals, it's just that they are initially all zero. Looking back at our copper-iron example the actual state of the network looks more like this:
+*Important!* The network always contains *ALL* possible signals, it's just that initially they are all zero. Looking back at our copper-iron example the actual state of the network looks more like this:
 
 ![Iron Plate](https://wiki.factorio.com/images/Iron_plate.png) | ![Copper Plate](https://wiki.factorio.com/images/Copper_plate.png) | ![Steel Plate](https://wiki.factorio.com/images/Steel_plate.png) | ![Plastic Bar](https://wiki.factorio.com/images/Plastic_bar.png) | . . . | . . . | ![Electronic Circuit](https://wiki.factorio.com/images/Electronic_circuit.png) | ![Advanced Circuit](https://wiki.factorio.com/images/Advanced_circuit.png) | . . . | . . . | `A` | `B` | `C` | . . .
 :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---:
@@ -73,18 +77,28 @@ Okay, apparently there are a bunch of [buildings producing signals](SignalSource
 
 ![Probably the smallest network possible :D](images/Basics_Control2.png)
 
-A fairly easy and common one is the controlled power switch to attach/detach your backup steam engines after switching to solar power. You only want the steam to kick in if the accumulator charge drops below a certain level. So output the charge and feed it into the power switch. In this case, attach the engines as soon as the charge is below 10%. This way the solar panels and accumulators are always connected to the factory while steam power is only ever used when it's actually needed.
+A fairly easy and common one is the controlled power switch to attach/detach your backup steam engines after switching to solar power. You only want the steam to kick in if the accumulator charge drops below a certain level. So output the charge and feed it into the power switch. In this case, attach the engines as soon as the charge is below 10%. This way the solar panels and accumulators are always connected to the factory (left side of the picture), while steam power is only ever used when it's actually needed.
 
 Easy! But that can't be it, right?!
 
-### 2.4 First logic
+### 2.4 Manipulating signals
+
+So far, you are able to directly control things that take input signals by using the output from other buildings. What about manipulating the signals, doing some calculations or translating facts into binary signals?
+
+...
+
+### 2.5 First logic
+
+But what if you wanted to combine different signals into more complex conditions in order to control something? Fear not, this is Factorio and the factory will provide!
 
 > basic building blocks: AND, OR, XOR, ..
 > plus example and pictures
 
-### 2.5 Everything, Anything & Each
+### 2.6 Everything, Anything & Each
 
 > 3x example plus picture
+
+![Logic Signals](images/Basics_LogicSignals.png)
 
 ## 3 Ticks, Delay & Propagation
 
